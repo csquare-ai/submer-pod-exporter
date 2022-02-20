@@ -21,9 +21,8 @@ var (
 	port    int
 	apiURL  string
 	rootCmd = &cobra.Command{
-		Use:   "slurmbank-api",
-		Short: "A Slurm Bank API.",
-		Long:  `A middleware to limit the live consumption of a slurm user. Built made by Marc Nguyen, for Cohesive Computing SA.`,
+		Use:   "submer-pod-exporter",
+		Short: "Prometheus exporter for Submer smart pod.",
 		Run: func(cmd *cobra.Command, args []string) {
 			recordMetrics()
 
