@@ -18,14 +18,14 @@ type Data struct {
 	Pump2Status  float64     `json:"pump2status"`
 	Pump2RPM     float64     `json:"pump2rpm"`
 	CTI          float64     `json:"cti"`
-	Cto          float64     `json:"cto"`
+	CTO          float64     `json:"cto"`
 	CF           float64     `json:"cf"`
-	Wti          float64     `json:"wti"`
-	Wto          float64     `json:"wto"`
-	Wf           float64     `json:"wf"`
+	WTI          float64     `json:"wti"`
+	WTO          float64     `json:"wto"`
+	WF           float64     `json:"wf"`
 	Alarm        float64     `json:"alarm"`
-	Cpu0Temp     float64     `json:"cpu0temp"`
-	Cpu1Temp     float64     `json:"cpu1temp"`
+	CPU0Temp     float64     `json:"cpu0temp"`
+	CPU1Temp     float64     `json:"cpu1temp"`
 	Errors       []Error     `json:"errors"`
 	Warnings     []Warning   `json:"warnings"`
 	Mode         string      `json:"mode"`

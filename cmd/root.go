@@ -75,6 +75,42 @@ var (
 		Name:      "pump2rpm",
 		Help:      "The pump2rpm of the smartpod (rotations per minute)",
 	})
+	cti = promauto.NewGauge(prometheus.GaugeOpts{
+		Namespace: "submer",
+		Subsystem: "smartpod",
+		Name:      "coolant_temperature_in",
+		Help:      "The temperature of the coolant going in the heat exchanger of the smartpod (°C)",
+	})
+	cto = promauto.NewGauge(prometheus.GaugeOpts{
+		Namespace: "submer",
+		Subsystem: "smartpod",
+		Name:      "coolant_temperature_out",
+		Help:      "The temperature of the coolant going out of the heat exchanger of the smartpod (°C)",
+	})
+	cf = promauto.NewGauge(prometheus.GaugeOpts{
+		Namespace: "submer",
+		Subsystem: "smartpod",
+		Name:      "coolant_flow",
+		Help:      "The flow of the coolant in the heat exchanger of the smartpod (m3/h)",
+	})
+	wti = promauto.NewGauge(prometheus.GaugeOpts{
+		Namespace: "submer",
+		Subsystem: "smartpod",
+		Name:      "water_temperature_in",
+		Help:      "The temperature of the water going in the heat exchanger of the smartpod (°C)",
+	})
+	wto = promauto.NewGauge(prometheus.GaugeOpts{
+		Namespace: "submer",
+		Subsystem: "smartpod",
+		Name:      "water_temperature_out",
+		Help:      "The temperature of the water going out of the heat exchanger of the smartpod (°C)",
+	})
+	wf = promauto.NewGauge(prometheus.GaugeOpts{
+		Namespace: "submer",
+		Subsystem: "smartpod",
+		Name:      "water_flow",
+		Help:      "The flow of the water in the heat exchanger of the smartpod (m3/h)",
+	})
 )
 
 func recordMetrics() {
@@ -111,6 +147,12 @@ func recordMetrics() {
 				mpue.Set(data.Data.Mpue)
 				pump1rpm.Set(data.Data.Pump1RPM)
 				pump2rpm.Set(data.Data.Pump2RPM)
+				cti.Set(data.Data.CTI)
+				cto.Set(data.Data.CTO)
+				cf.Set(data.Data.CF)
+				wti.Set(data.Data.WTI)
+				wto.Set(data.Data.WTO)
+				wf.Set(data.Data.WF)
 			}()
 			time.Sleep(time.Second)
 		}
