@@ -34,7 +34,7 @@ serviceMonitor:
 
   labels: {}
 
-  path: /
+  path: /metrics
 
   # fallback to the prometheus default unless specified
   # interval: 10s
