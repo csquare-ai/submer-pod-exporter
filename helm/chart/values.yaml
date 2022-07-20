@@ -30,7 +30,6 @@ service:
 
 serviceMonitor:
   enabled: true
-  namespace: monitoring
 
   labels: {}
 
