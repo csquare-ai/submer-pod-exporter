@@ -1,4 +1,4 @@
-FROM docker.io/library/golang:1.18.5-alpine as builder
+FROM docker.io/library/golang:1.19.0-alpine as builder
 WORKDIR /go/src/github.com/csquare-ai/submer-pod-exporter/
 COPY go.mod go.sum ./
 RUN go mod download
