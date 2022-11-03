@@ -3,7 +3,7 @@ module github.com/csquare-ai/submer-pod-exporter
 go 1.19
 
 require (
-	github.com/prometheus/client_golang v1.13.0
+	github.com/prometheus/client_golang v1.13.1
 	github.com/spf13/cobra v1.6.1
 )
 
