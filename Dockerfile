@@ -7,7 +7,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o app .
 
 # ---
-FROM docker.io/library/busybox:1.35.0-musl
+FROM docker.io/library/busybox:1.36.0-musl
 
 ENV HOST=0.0.0.0
 ENV PORT=3000
