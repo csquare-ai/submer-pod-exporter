@@ -24,7 +24,8 @@ var (
 		Use:   "submer-pod-exporter",
 		Short: "Prometheus exporter for Submer smart pod.",
 		Run: func(cmd *cobra.Command, args []string) {
-			recordMetrics()
+			ticker := time.NewTicker(time.Second)
+			go recordMetrics(cmd.Context(), ticker)
 
 			log.Printf("Serving at %s:%d\n", host, port)
 			http.Handle("/metrics", promhttp.Handler())
@@ -113,50 +114,76 @@ var (
 	})
 )
 
-func recordMetrics() {
-	go func() {
-		for {
-			func() {
-				req, err := http.NewRequest("GET", apiURL, nil)
-				if err != nil {
-					log.Printf("%+v\n", err)
-					return
-				}
-				ctx, cancel := context.WithTimeout(req.Context(), 5*time.Second)
-				defer cancel()
+func recordMetrics(ctx context.Context, ticker *time.Ticker) {
+	for {
+		func() {
+			req, err := http.NewRequest("GET", apiURL, nil)
+			if err != nil {
+				log.Printf("%+v\n", err)
+				setZero()
+				return
+			}
+			ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+			defer cancel()
 
-				req = req.WithContext(ctx)
-				resp, err := http.DefaultClient.Do(req)
-				if err != nil {
-					log.Printf("%+v\n", err)
-					return
-				}
-				defer resp.Body.Close()
+			req = req.WithContext(ctx)
+			resp, err := http.DefaultClient.Do(req)
+			if err != nil {
+				log.Printf("%+v\n", err)
+				setZero()
+				return
+			}
+			defer resp.Body.Close()
 
-				data := inputs.RealTime{}
-				if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-					log.Printf("%+v\n", err)
-					return
-				}
+			data := inputs.RealTime{}
+			if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+				log.Printf("%+v\n", err)
+				setZero()
+				return
+			}
 
-				log.Printf("Summary: %+v\n", data.Data)
-				temperature.Set(data.Data.Temperature)
-				consumption.Set(data.Data.Consumption)
-				dissipation.Set(data.Data.Dissipation)
-				setpoint.Set(data.Data.Setpoint)
-				mpue.Set(data.Data.Mpue)
-				pump1rpm.Set(data.Data.Pump1RPM)
-				pump2rpm.Set(data.Data.Pump2RPM)
-				cti.Set(data.Data.CTI)
-				cto.Set(data.Data.CTO)
-				cf.Set(data.Data.CF)
-				wti.Set(data.Data.WTI)
-				wto.Set(data.Data.WTO)
-				wf.Set(data.Data.WF)
-			}()
-			time.Sleep(time.Second)
+			log.Printf("Summary: %+v\n", data.Data)
+			temperature.Set(data.Data.Temperature)
+			consumption.Set(data.Data.Consumption)
+			dissipation.Set(data.Data.Dissipation)
+			setpoint.Set(data.Data.Setpoint)
+			mpue.Set(data.Data.Mpue)
+			pump1rpm.Set(data.Data.Pump1RPM)
+			pump2rpm.Set(data.Data.Pump2RPM)
+			cti.Set(data.Data.CTI)
+			cto.Set(data.Data.CTO)
+			cf.Set(data.Data.CF)
+			wti.Set(data.Data.WTI)
+			wto.Set(data.Data.WTO)
+			wf.Set(data.Data.WF)
+		}()
+
+		select {
+		case <-ctx.Done():
+			if err := ctx.Err(); err != nil {
+				log.Printf("Error: %+v\n", err)
+				setZero()
+			}
+			return
+		case <-ticker.C:
 		}
-	}()
+	}
+}
+
+func setZero() {
+	temperature.Set(0)
+	consumption.Set(0)
+	dissipation.Set(0)
+	setpoint.Set(0)
+	mpue.Set(0)
+	pump1rpm.Set(0)
+	pump2rpm.Set(0)
+	cti.Set(0)
+	cto.Set(0)
+	cf.Set(0)
+	wti.Set(0)
+	wto.Set(0)
+	wf.Set(0)
 }
 
 func init() {
