@@ -30,7 +30,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: false
-          tags: csquare-ai/submer-pod-exporter:latest
+          tags: squarefactory/submer-pod-exporter:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -56,8 +56,8 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/csquare-ai/submer-pod-exporter:latest
-            ghcr.io/csquare-ai/submer-pod-exporter:${{ steps.get_version.outputs.VERSION }}
+            ghcr.io/squarefactory/submer-pod-exporter:latest
+            ghcr.io/squarefactory/submer-pod-exporter:${{ steps.get_version.outputs.VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

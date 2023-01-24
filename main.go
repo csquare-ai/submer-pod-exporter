@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/csquare-ai/submer-pod-exporter/cmd"
+	"github.com/squarefactory/submer-pod-exporter/cmd"
 )
 
 func main() {

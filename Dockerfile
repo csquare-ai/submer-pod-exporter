@@ -1,5 +1,5 @@
 FROM docker.io/library/golang:1.19.5-alpine as builder
-WORKDIR /go/src/github.com/csquare-ai/submer-pod-exporter/
+WORKDIR /go/src/github.com/squarefactory/submer-pod-exporter/
 COPY go.mod go.sum ./
 RUN go mod download
 
@@ -20,7 +20,7 @@ RUN mkdir /app
 RUN addgroup -S app && adduser -S -G app app
 WORKDIR /app
 
-COPY --from=builder /go/src/github.com/csquare-ai/submer-pod-exporter/app .
+COPY --from=builder /go/src/github.com/squarefactory/submer-pod-exporter/app .
 
 RUN chown -R app:app .
 USER app

@@ -1,4 +1,4 @@
-module github.com/csquare-ai/submer-pod-exporter
+module github.com/squarefactory/submer-pod-exporter
 
 go 1.19
 

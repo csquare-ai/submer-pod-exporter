@@ -1,7 +1,7 @@
 ---
 replicas: 1
 
-image: 'ghcr.io/csquare-ai/submer-pod-exporter:0.1.0'
+image: 'ghcr.io/squarefactory/submer-pod-exporter:0.1.1'
 imagePullPolicy: 'IfNotPresent'
 
 args: ['--api-url', 'http://10.10.3.7/api/realTime']
