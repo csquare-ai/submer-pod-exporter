@@ -3,7 +3,7 @@ module github.com/squarefactory/submer-pod-exporter
 go 1.19
 
 require (
-	github.com/prometheus/client_golang v1.20.3
+	github.com/prometheus/client_golang v1.20.4
 	github.com/spf13/cobra v1.8.1
 )
 
